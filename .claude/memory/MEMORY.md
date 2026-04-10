@@ -1,0 +1,2 @@
+- [TTS Project Goal](project_tts_goal.md) — Prod-grade TTS with Coqui framework, AWS GPUs, English first
+- [User Profile](user_pavan.md) — Pavan: M4 Max 128GB, AWS access, GitHub pktikkani

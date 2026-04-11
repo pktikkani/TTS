@@ -2,6 +2,10 @@
 
 This repo now includes a full in-house English voice pipeline built around reusable XTTS training, data prep, evaluation, serving, and benchmarking.
 
+Two practical quality notes:
+- Use your existing 100k-step model as the bootstrap checkpoint for both voices instead of starting from the stock XTTS weights.
+- Use 3 to 5 clean reference clips per voice when you promote a production checkpoint. The configs accept a list of reference files already; one clip is acceptable for a baseline but weaker for final evaluation and serving.
+
 ## 1. Prepare Datasets
 
 Female LJSpeech:
@@ -78,6 +82,19 @@ This writes:
 
 Use the review sheet to score naturalness, similarity, pronunciation, pacing, and expressiveness.
 
+Run automated WER metrics on the same pack:
+
+```bash
+python3 scripts/eval/automated_metrics.py \
+  --manifest-path outputs/eval/female/candidate/manifest.json \
+  --output-path outputs/eval/female/candidate/metrics \
+  --asr-model-name small.en
+```
+
+This writes:
+- `wer_results.csv`
+- `wer_summary.json`
+
 ## 4. Benchmark Against Vendors
 
 Once you have exported or collected vendor samples for the same prompt pack:
@@ -133,3 +150,13 @@ The English normalizer lives at `scripts/text/normalize_en.py` and handles:
 - URLs
 
 Use it in product-facing synthesis requests before inference when you need deterministic spoken forms.
+
+## 8. XTTS Inference Defaults
+
+The runtime defaults are tuned for XTTS v2 rather than generic TTS decoding:
+- `temperature=0.75`
+- `top_p=0.85`
+- `repetition_penalty=10.0`
+- `speed=1.0`
+
+Only supported XTTS inference keys are passed through from the registry presets, so unsupported fields cannot crash evaluation runs.

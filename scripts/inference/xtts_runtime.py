@@ -25,12 +25,13 @@ class VoiceSpec:
     max_chunk_chars: int = 220
     inference_preset: Dict[str, Any] = field(
         default_factory=lambda: {
-            "temperature": 0.7,
+            "temperature": 0.75,
             "top_p": 0.85,
-            "repetition_penalty": 5.0,
+            "repetition_penalty": 10.0,
             "speed": 1.0,
         }
     )
+    output_sample_rate: int = 24000
 
 
 @dataclass(frozen=True)
@@ -61,15 +62,32 @@ def load_voice_registry(registry_path: Path | str) -> Dict[str, VoiceSpec]:
             inference_preset=voice.get(
                 "inference_preset",
                 {
-                    "temperature": 0.7,
+                    "temperature": 0.75,
                     "top_p": 0.85,
-                    "repetition_penalty": 5.0,
+                    "repetition_penalty": 10.0,
                     "speed": 1.0,
                 },
             ),
+            output_sample_rate=voice.get("output_sample_rate", voice.get("sample_rate", 24000)),
         )
         registry[voice_spec.voice_name] = voice_spec
     return registry
+
+
+ALLOWED_INFERENCE_PRESET_KEYS = {
+    "temperature",
+    "top_p",
+    "top_k",
+    "repetition_penalty",
+    "length_penalty",
+    "speed",
+    "do_sample",
+    "num_beams",
+}
+
+
+def sanitize_inference_preset(preset: Dict[str, Any]) -> Dict[str, Any]:
+    return {key: value for key, value in preset.items() if key in ALLOWED_INFERENCE_PRESET_KEYS}
 
 
 def chunk_text(text: str, max_chars: int = 220) -> List[str]:
@@ -177,6 +195,7 @@ class XttsRuntime:
 
         normalized_text = normalize_for_tts(request.text) if request.normalize and voice.normalize_text else request.text
         chunks = chunk_text(normalized_text, max_chars=voice.max_chunk_chars)
+        preset = sanitize_inference_preset(voice.inference_preset)
 
         wav_segments = []
         for chunk in chunks:
@@ -186,7 +205,7 @@ class XttsRuntime:
                 runtime["gpt_cond_latent"],
                 runtime["speaker_embedding"],
                 enable_text_splitting=False,
-                **voice.inference_preset,
+                **preset,
             )
             wav_segments.append(torch.tensor(output["wav"]))
 
@@ -194,7 +213,7 @@ class XttsRuntime:
         output_dir = request.output_dir or Path(tempfile.mkdtemp(prefix=f"{voice.voice_name}_tts_"))
         output_dir.mkdir(parents=True, exist_ok=True)
         output_file = output_dir / f"{voice.voice_name}.wav"
-        torchaudio.save(str(output_file), full_wav.cpu(), voice.inference_preset.get("sample_rate", 24000))
+        torchaudio.save(str(output_file), full_wav.cpu(), voice.output_sample_rate)
         return {
             "voice_name": voice.voice_name,
             "normalized_text": normalized_text,

@@ -5,7 +5,7 @@ from pathlib import Path
 
 from fastapi.testclient import TestClient
 
-from scripts.inference.xtts_runtime import chunk_text, load_voice_registry
+from scripts.inference.xtts_runtime import chunk_text, load_voice_registry, sanitize_inference_preset
 from scripts.serving.api import create_app
 
 
@@ -64,7 +64,25 @@ class TestServingApi(unittest.TestCase):
 
             self.assertIn("female", registry)
             self.assertEqual(registry["female"].language, "en")
+            self.assertEqual(registry["female"].inference_preset["temperature"], 0.75)
             self.assertGreaterEqual(len(chunks), 2)
+
+    def test_sanitize_inference_preset_filters_unknown_keys(self):
+        preset = sanitize_inference_preset(
+            {
+                "temperature": 0.75,
+                "repetition_penalty": 10.0,
+                "speed": 1.0,
+                "sample_rate": 24000,
+                "unexpected": 123,
+            }
+        )
+
+        self.assertEqual(preset["temperature"], 0.75)
+        self.assertEqual(preset["repetition_penalty"], 10.0)
+        self.assertEqual(preset["speed"], 1.0)
+        self.assertNotIn("sample_rate", preset)
+        self.assertNotIn("unexpected", preset)
 
     def test_api_routes_use_service_contract(self):
         service = FakeService()

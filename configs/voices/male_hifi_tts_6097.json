@@ -1,0 +1,24 @@
+{
+  "voice_name": "male_hifi_tts_6097",
+  "dataset_formatter": "coqui",
+  "dataset_name": "hifi_tts_6097",
+  "dataset_path": "/home/ec2-user/data/hi_fi_tts",
+  "meta_file_train": "/home/ec2-user/data/prepared/hifi_tts_6097/metadata_train.csv",
+  "meta_file_val": "/home/ec2-user/data/prepared/hifi_tts_6097/metadata_eval.csv",
+  "output_path": "/home/ec2-user/training_output/male",
+  "run_name": "GPT_XTTS_v2.0_HiFiTTS_6097_FT",
+  "run_description": "GPT XTTS v2.0 fine-tuning on Hi-Fi TTS speaker 6097 male voice",
+  "batch_size": 2,
+  "grad_accum_steps": 16,
+  "epochs": 124,
+  "optimizer_wd_only_on_weights": false,
+  "reference_audio": [
+    "/home/ec2-user/TTS/reference_audio/male/6097_reference.wav"
+  ],
+  "test_sentences": [
+    "The project launches this Friday at exactly 5:30 PM Eastern Time.",
+    "Our support team can walk you through every feature in a calm and confident tone.",
+    "The quick brown fox jumps over the lazy dog while the engineers review the final release."
+  ],
+  "s3_bucket": "s3://pm-tts-model/checkpoints/male/"
+}

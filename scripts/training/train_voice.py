@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""XTTS v2 fine-tuning wrapper for the female LJSpeech voice."""
+"""Generic XTTS voice training entrypoint."""
 
 from pathlib import Path
 import sys
@@ -13,4 +13,4 @@ from scripts.training.voice_training import main
 
 
 if __name__ == "__main__":
-    main(default_config_path=REPO_ROOT / "configs" / "voices" / "female_ljspeech.json")
+    main()

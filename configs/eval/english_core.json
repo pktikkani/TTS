@@ -1,0 +1,34 @@
+{
+  "prompts": [
+    {
+      "prompt_id": "narration_01",
+      "category": "narration",
+      "text": "Launch day is finally here, and every system is ready for the first customer."
+    },
+    {
+      "prompt_id": "dialogue_01",
+      "category": "dialogue",
+      "text": "I understand your concern, and I can walk you through the next step right now."
+    },
+    {
+      "prompt_id": "numbers_01",
+      "category": "numbers",
+      "text": "The invoice total is one hundred forty nine dollars and fifty cents."
+    },
+    {
+      "prompt_id": "dates_01",
+      "category": "dates",
+      "text": "Your appointment is scheduled for Tuesday, April fifteenth, at nine thirty in the morning."
+    },
+    {
+      "prompt_id": "acronyms_01",
+      "category": "acronyms",
+      "text": "The API, GPU, and CPU metrics all returned to normal after the rollout."
+    },
+    {
+      "prompt_id": "longform_01",
+      "category": "longform",
+      "text": "Our team designed this system to sound calm, precise, and trustworthy over long conversations, even when the text includes names, numbers, and unexpected phrasing."
+    }
+  ]
+}

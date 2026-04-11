@@ -1,0 +1,30 @@
+{
+  "voices": [
+    {
+      "voice_name": "female",
+      "label": "Female Flagship",
+      "checkpoint_path": "/home/ec2-user/models/voices/female/best_model.pth",
+      "config_path": "/home/ec2-user/models/voices/female/config.json",
+      "tokenizer_path": "/home/ec2-user/models/voices/female/vocab.json",
+      "speaker_wav": [
+        "/home/ec2-user/TTS/reference_audio/female/LJ001-0002.wav"
+      ],
+      "language": "en",
+      "normalize_text": true,
+      "max_chunk_chars": 220
+    },
+    {
+      "voice_name": "male",
+      "label": "Male Flagship",
+      "checkpoint_path": "/home/ec2-user/models/voices/male/best_model.pth",
+      "config_path": "/home/ec2-user/models/voices/male/config.json",
+      "tokenizer_path": "/home/ec2-user/models/voices/male/vocab.json",
+      "speaker_wav": [
+        "/home/ec2-user/TTS/reference_audio/male/6097_reference.wav"
+      ],
+      "language": "en",
+      "normalize_text": true,
+      "max_chunk_chars": 220
+    }
+  ]
+}

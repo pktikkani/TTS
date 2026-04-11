@@ -1,0 +1,23 @@
+{
+  "voice_name": "female_ljspeech",
+  "dataset_formatter": "ljspeech",
+  "dataset_name": "ljspeech",
+  "dataset_path": "/home/ec2-user/data/LJSpeech-1.1",
+  "meta_file_train": "metadata.csv",
+  "output_path": "/home/ec2-user/training_output/female",
+  "run_name": "GPT_XTTS_v2.0_LJSpeech_FT",
+  "run_description": "GPT XTTS v2.0 fine-tuning on LJSpeech female voice",
+  "batch_size": 2,
+  "grad_accum_steps": 16,
+  "epochs": 124,
+  "optimizer_wd_only_on_weights": false,
+  "reference_audio": [
+    "/home/ec2-user/TTS/reference_audio/female/LJ001-0002.wav"
+  ],
+  "test_sentences": [
+    "It took me quite a long time to develop a voice, and now that I have it I'm not going to be silent.",
+    "This cake is great. It's so delicious and moist.",
+    "The quick brown fox jumps over the lazy dog near the bank of the river."
+  ],
+  "s3_bucket": "s3://pm-tts-model/checkpoints/female/"
+}

@@ -170,3 +170,6 @@ depot/*
 coqui_recipes/*
 local_scripts/*
 coqui_demos/*
+
+# generated audio samples from training/evaluation
+samples/
